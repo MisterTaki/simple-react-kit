@@ -1,19 +1,23 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import logo from './assets/logo.svg';
+import router from './router';
 import './style/index.less';
 
 const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">Welcome to React</h1>
-    </header>
-    <p className="App-intro">
-      To get started, edit <code>src/App.jsx</code> and save to reload.
-    </p>
-  </div>
+  <Router>
+    <Switch>
+      {router.map(item => (
+        <Route
+          key={item.label}
+          path={item.path}
+          component={item.component}
+          exact={item.isExact}
+        />
+      ))}
+    </Switch>
+  </Router>
 );
 
 export default hot(module)(App);
