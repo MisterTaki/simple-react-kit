@@ -18,7 +18,7 @@
   "homepage": "https://github.com/MisterTaki/simple-react-app#readme",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node scripts/server.js",
+    "server": "node scripts/server.js",
     "build": "node scripts/build.js"
   },
   "dependencies": {
