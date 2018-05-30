@@ -73,7 +73,7 @@ function formatStats (stats, dir) {
         : chalk.blue(path.join(dir, asset.name)),
       formatSize(asset.size),
       getGzippedSize(asset)
-    )).join(`\n`);
+    )).join(`\n`)
   );
 
   return `${ui.toString()}\n\n  ${chalk.gray(`Images and other types of assets omitted.`)}\n`;
