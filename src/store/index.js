@@ -4,8 +4,7 @@ import { routerReducer, routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
 import { loading as loadingMiddleware } from './middlewares';
-import * as reducers from './reducers';
-import sagas from './sagas';
+import { reducers, sagas } from './modules';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
 let composeEnhancers = compose;
