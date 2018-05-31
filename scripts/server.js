@@ -10,7 +10,7 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const { info, hasYarn } = require('@vue/cli-shared-utils');
 const { prepareProxy, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
 
-const webpackConfig = require('../webpack/webpack.dev.conf.js');
+const webpackConfig = require('../webpack/webpack.dev.js');
 const { devServer } = require('../config');
 
 

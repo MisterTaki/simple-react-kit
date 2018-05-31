@@ -8,11 +8,18 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: 'webpack/webpack.base.conf.js',
+        config: 'webpack/webpack.common.js',
       },
     },
   },
   rules: {
     // custom rules here
+    'max-len': ['error', 80, 2, {
+      ignoreUrls: true,
+      ignoreComments: true,
+      ignoreRegExpLiterals: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+    }],
   },
 };

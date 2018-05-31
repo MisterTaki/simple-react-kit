@@ -14,7 +14,7 @@ const {
   stopSpinner
 } = require('@vue/cli-shared-utils');
 
-const webpackConfig = require('../webpack/webpack.prod.conf.js');
+const webpackConfig = require('../webpack/webpack.prod.js');
 
 function formatStats (stats, dir) {
   const json = stats.toJson({
