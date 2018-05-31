@@ -1,1 +1,1 @@
-export loading from './loading';
+export loadingMiddleware from './loadingMiddleware';
