@@ -1,4 +1,4 @@
-import { startLoading, successLoading, errorLoading } from '@/store/modules/global/action';
+import { startLoading, successLoading, failureLoading } from '@/store/modules/global/action';
 import { REQUEST, SUCCESS, FAILURE } from '@/config/requestTypes';
 
 const defaultTypeSuffixes = [REQUEST, SUCCESS, FAILURE];
@@ -19,7 +19,7 @@ export default function (config = {}) {
       } else if (action.type.match(isSuccess)) {
         dispatch(successLoading());
       } else if (action.type.match(isError)) {
-        dispatch(errorLoading());
+        dispatch(failureLoading());
       }
     }
 
