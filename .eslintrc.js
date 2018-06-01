@@ -21,5 +21,6 @@ module.exports = {
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
     }],
+    'jsx-a11y/anchor-is-valid': 'off',
   },
 };
