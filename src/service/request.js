@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import { push } from 'react-router-redux';
-import store from '@/store';
+import { store } from '@/store';
 
 const methods = ['get', 'post', 'delete', 'put'];
 
@@ -35,6 +35,7 @@ class Request {
   }
 
   checkStatus = (response) => {
+    console.log(`checkStatus:${response}`);
     if (response.status >= 200 && response.status < 300) {
       return response;
     }
@@ -50,9 +51,10 @@ class Request {
   }
 
   parseResponse = (response) => {
+    console.log(`parseResponse:${response}`);
     const { data, status } = response;
     if (data.ret === true) {
-      return data;
+      return { data };
     }
     if (data.errcode * 1 === 0) {
       // 认证信息错误
@@ -66,6 +68,7 @@ class Request {
   }
 
   dealError = (error) => {
+    console.log(`dealError:${error}`);
     const { dispatch } = store;
     const status = error.name;
     if (status === 401) {
@@ -82,7 +85,7 @@ class Request {
     if (status >= 404 && status < 422) {
       dispatch(push('/404'));
     }
-    throw error;
+    return { error };
   }
 }
 

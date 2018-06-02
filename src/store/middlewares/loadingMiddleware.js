@@ -1,5 +1,5 @@
 import { startLoading, successLoading, failureLoading } from '@/store/modules/global/action';
-import { REQUEST, SUCCESS, FAILURE } from '@/config/requestTypes';
+import { REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
 const defaultTypeSuffixes = [REQUEST, SUCCESS, FAILURE];
 

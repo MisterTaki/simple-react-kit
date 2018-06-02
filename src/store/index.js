@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
+import { REPLACE_SAGAS } from '@/const/requestTypes';
 import { loadingMiddleware } from './middlewares';
 import { reducers, sagas } from './modules';
 
@@ -28,12 +29,28 @@ const store = createStore(
     router: routerReducer,
   }),
   composeEnhancers(applyMiddleware(
-    loadingMiddleware,
-    sagaMiddleware,
+    loadingMiddleware(),
     routerMiddleware(history),
+    sagaMiddleware,
   )),
 );
 
 sagaMiddleware.run(sagas);
 
-export default store;
+if (module.hot) {
+  // Enable Redux-Saga & Webpack hot module replacement for reducers
+  module.hot.accept('./modules/index.js', () => {
+    /* eslint-disable global-require */
+    const { reducers: nextRootReducer } = require('./modules/index.js');
+    const { rootSagas: nextSagas } = require('./modules/sagas.js');
+    // https://github.com/reduxjs/react-redux/releases/tag/v2.0.0
+    store.replaceReducer(combineReducers({
+      ...nextRootReducer,
+      router: routerReducer,
+    }));
+    // https://stackoverflow.com/questions/37148592/redux-saga-hot-reloading
+    store.dispatch({ type: REPLACE_SAGAS, nextSagas });
+  });
+}
+
+export { history, store };

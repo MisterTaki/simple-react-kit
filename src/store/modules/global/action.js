@@ -1,21 +1,11 @@
-export const START = 'global/START_LOADING';
-export const SUCCESS = 'global/SUCCESS_LOADING';
-export const FAILURE = 'global/FAILURE_LOADING';
+import { createAction } from '@/utils/createTools';
 
-export function startLoading() {
-  return {
-    type: START,
-  };
-}
+const NAME_SPACE = 'global';
 
-export function successLoading() {
-  return {
-    type: SUCCESS,
-  };
-}
+export const START = `${NAME_SPACE}/START_LOADING`;
+export const SUCCESS = `${NAME_SPACE}/SUCCESS_LOADING`;
+export const FAILURE = `${NAME_SPACE}/FAILURE_LOADING`;
 
-export function errorLoading() {
-  return {
-    type: FAILURE,
-  };
-}
+export const startLoading = () => createAction(START);
+export const successLoading = () => createAction(SUCCESS);
+export const failureLoading = () => createAction(FAILURE);
