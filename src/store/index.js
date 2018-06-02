@@ -5,7 +5,8 @@ import createHistory from 'history/createBrowserHistory';
 
 import { REPLACE_SAGAS } from '@/const/requestTypes';
 import { loadingMiddleware } from './middlewares';
-import { reducers, sagas } from './modules';
+import * as reducers from './modules/reducers';
+import sagas from './modules/sagas';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
 let composeEnhancers = compose;
@@ -37,18 +38,21 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 
+/* eslint-disable global-require */
 if (module.hot) {
-  // Enable Redux-Saga & Webpack hot module replacement for reducers
-  module.hot.accept('./modules/index.js', () => {
-    /* eslint-disable global-require */
-    const { reducers: nextRootReducer } = require('./modules/index.js');
-    const { rootSagas: nextSagas } = require('./modules/sagas.js');
-    // https://github.com/reduxjs/react-redux/releases/tag/v2.0.0
+  // Enable Webpack hot module replacement for reducers
+  // https://github.com/reduxjs/react-redux/releases/tag/v2.0.0
+  module.hot.accept('./modules/reducers.js', () => {
+    const nextRootReducer = require('./modules/reducers.js');
     store.replaceReducer(combineReducers({
       ...nextRootReducer,
       router: routerReducer,
     }));
-    // https://stackoverflow.com/questions/37148592/redux-saga-hot-reloading
+  });
+  // Enable Webpack hot module replacement for sagas
+  // https://stackoverflow.com/questions/37148592/redux-saga-hot-reloading
+  module.hot.accept('./modules/sagas.js', () => {
+    const { rootSagas: nextSagas } = require('./modules/sagas.js');
     store.dispatch({ type: REPLACE_SAGAS, nextSagas });
   });
 }
