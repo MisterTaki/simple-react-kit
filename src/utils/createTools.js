@@ -1,4 +1,3 @@
-
 import { DEFAULT, REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
 export const createType = (namespace, type) => `${namespace}/${type}`;

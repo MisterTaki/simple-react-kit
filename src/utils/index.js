@@ -1,1 +1,2 @@
-export createTools from './createTools';
+export * as createTools from './createTools';
+export switchCase from './switchCase';
