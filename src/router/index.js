@@ -7,6 +7,11 @@ const Home = Loadable({
   loading: () => null,
 });
 
+const Demo = Loadable({
+  loader: () => import('@/views/Demo/Demo'),
+  loading: () => null,
+});
+
 const NotFound = Loadable({
   loader: () => import('@/views/NotFound/NotFound'),
   loading: () => null,
@@ -18,6 +23,12 @@ export default [
     path: '/',
     isExact: true,
     component: Home,
+  },
+  {
+    label: 'demo',
+    path: '/demo',
+    isExact: false,
+    component: Demo,
   },
   {
     label: '404',

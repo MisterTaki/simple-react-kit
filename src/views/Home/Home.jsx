@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 import logo from '@/assets/logo.svg';
 import './Home.less';
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-export default () => (
+const Home = ({ demo }) => (
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
@@ -14,6 +15,14 @@ export default () => (
     <p className="App-intro">
       To get started, edit <code>src/App.jsx</code> and save to reload.
     </p>
-    <Link to="/sss">sss</Link>
+    <button onClick={demo}>to Demo</button>
   </div>
 );
+
+Home.propTypes = {
+  demo: PropTypes.func.isRequired,
+};
+
+export default connect(null, dispatch => ({
+  demo: () => dispatch(push('/demo')),
+}))(Home);
