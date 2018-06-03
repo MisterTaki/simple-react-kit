@@ -27,6 +27,8 @@
     "axios": "^0.18.0",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
+    "object-assign": "^4.1.1",
+    "promise": "^8.0.1",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

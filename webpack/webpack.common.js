@@ -13,9 +13,10 @@ module.exports = {
 
   target: "web",
 
-  entry: {
-    app: path.resolve(__dirname, "../src/index.js")
-  },
+  entry: [
+    path.resolve(__dirname, '../config/polyfills.js'),
+    path.resolve(__dirname, "../src/index.js")
+  ],
 
   output: {
     path: DIST_DIR,
