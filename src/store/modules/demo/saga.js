@@ -7,9 +7,9 @@ const { user } = actions;
 
 function* loadUser({ params }) {
   yield put(user.request());
-  const { response, error } = yield call(test, params);
-  if (response) {
-    yield put(user.success(response));
+  const { data, error } = yield call(test, params);
+  if (data) {
+    yield put(user.success(data));
   } else {
     yield put(user.failure(error));
   }
