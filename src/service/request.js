@@ -53,14 +53,11 @@ class Request {
   parseResponse = (response) => {
     console.log(`parseResponse:${response}`);
     const { data, status } = response;
-    if (data.ret === true) {
+
+    if (data.errno * 1 === 0) {
       return { data };
     }
-    if (data.errcode * 1 === 0) {
-      // 认证信息错误
-    } else {
-      // 后端接口错误
-    }
+    // 后端接口错误
     const error = new Error(data.msg);
     error.name = status;
     error.response = response;
