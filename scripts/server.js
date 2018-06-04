@@ -10,6 +10,7 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const { info, hasYarn } = require('@vue/cli-shared-utils');
 const { prepareProxy, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
 
+const mock = require('./utils/mock');
 const webpackConfig = require('../webpack/webpack.dev.js');
 const { devServer } = require('../config');
 
@@ -38,7 +39,13 @@ async function server () {
 
   const compiler = webpack(webpackConfig);
 
-  const { https, host, port, proxy, open } = devServer;
+  const { https, host, port, open, before } = devServer;
+
+  devServer.before = mock(
+    devServer,
+    path.resolve(__dirname, '../mock/index.js'),
+    before
+  );
 
   portfinder.basePort = port;
 
@@ -49,7 +56,7 @@ async function server () {
   );
 
   const proxySettings = prepareProxy(
-    proxy,
+    devServer.proxy,
     path.resolve(__dirname, "../public"),
   );
 
