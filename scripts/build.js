@@ -100,7 +100,7 @@ async function build () {
       }
 
       const targetDirShort = path.relative(
-        path.resolve(__dirname, "../"),
+        path.resolve(__dirname, '../'),
         targetDir
       );
 

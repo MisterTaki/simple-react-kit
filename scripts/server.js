@@ -57,7 +57,7 @@ async function server () {
 
   const proxySettings = prepareProxy(
     devServer.proxy,
-    path.resolve(__dirname, "../public"),
+    path.resolve(__dirname, '../public'),
   );
 
   // create server

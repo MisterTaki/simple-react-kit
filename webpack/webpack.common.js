@@ -5,32 +5,32 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const SRC_DIR = path.resolve(__dirname, "../src");
-const DIST_DIR = path.resolve(__dirname, "../dist");
+const SRC_DIR = path.resolve(__dirname, '../src');
+const DIST_DIR = path.resolve(__dirname, '../dist');
 
 module.exports = {
   context: SRC_DIR,
 
-  target: "web",
+  target: 'web',
 
   entry: [
     path.resolve(__dirname, '../config/polyfills.js'),
-    path.resolve(__dirname, "../src/index.js")
+    path.resolve(__dirname, '../src/index.js')
   ],
 
   output: {
     path: DIST_DIR,
-    filename: "[name].js",
-    publicPath: "./",
+    filename: '[name].js',
+    publicPath: './',
   },
 
   resolve: {
     modules: [
       SRC_DIR,
-      "node_modules",
+      'node_modules',
     ],
 
-    extensions: [".js", ".jsx", ".json"],
+    extensions: ['.js', '.jsx', '.json'],
 
     alias: {
       '@': SRC_DIR
@@ -76,14 +76,14 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: "img/[name].[hash:8].[ext]"
+          name: 'img/[name].[hash:8].[ext]'
         },
       },
       {
         test: /\.(svg)(\?.*)?$/,
         loader: 'file-loader',
         options: {
-          name: "img/[name].[hash:8].[ext]"
+          name: 'img/[name].[hash:8].[ext]'
         },
       },
       {
@@ -91,7 +91,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: "media/[name].[hash:8].[ext]"
+          name: 'media/[name].[hash:8].[ext]'
         },
       },
       {
@@ -99,7 +99,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: "fonts/[name].[hash:8].[ext]"
+          name: 'fonts/[name].[hash:8].[ext]'
         },
       }
     ]
@@ -108,7 +108,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, "../public/index.html"),
+      template: path.resolve(__dirname, '../public/index.html'),
       BASE_URL: './'
     }),
     // https://github.com/GoogleChromeLabs/preload-webpack-plugin
@@ -128,7 +128,7 @@ module.exports = {
     // https://webpack.js.org/plugins/copy-webpack-plugin
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, "../public"),
+        from: path.resolve(__dirname, '../public'),
         to: DIST_DIR,
         ignore: ['index.html', '.DS_Store']
       }

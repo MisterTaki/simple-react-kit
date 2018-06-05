@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const baseWebpackConfig = require('./webpack.common.js');
@@ -13,8 +13,8 @@ module.exports = merge(baseWebpackConfig, {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    filename: "js/[name].[chunkhash:8].js",
-    chunkFilename: "js/[name].[chunkhash:8].js",
+    filename: 'js/[name].[chunkhash:8].js',
+    chunkFilename: 'js/[name].[chunkhash:8].js',
   },
   module: {
     rules: [
@@ -37,7 +37,7 @@ module.exports = merge(baseWebpackConfig, {
     ],
     // https://webpack.js.org/plugins/split-chunks-plugin
     splitChunks: {
-      chunks: "all"
+      chunks: 'all'
     }
   },
   plugins: [
@@ -46,7 +46,7 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, "../public/index.html"),
+      template: path.resolve(__dirname, '../public/index.html'),
       BASE_URL: './',
       minify: {
         removeComments: true,

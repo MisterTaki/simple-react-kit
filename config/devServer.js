@@ -8,7 +8,7 @@ exports.devServer = {
   historyApiFallback: {
     disableDotRule: true
   },
-  contentBase: path.join(__dirname, "../public"),
+  contentBase: path.join(__dirname, '../public'),
   watchContentBase: true,
   publicPath: '/',
   compress: false,
