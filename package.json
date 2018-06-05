@@ -52,6 +52,7 @@
     "autoprefixer": "^8.5.0",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.0-beta.3",
+    "babel-plugin-import": "^1.7.0",
     "cache-loader": "^1.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "chalk": "^2.4.1",
