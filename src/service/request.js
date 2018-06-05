@@ -2,6 +2,7 @@ import axios from 'axios';
 import { notification } from 'antd';
 import { push } from 'react-router-redux';
 import { store } from '@/store';
+import { baseURL } from '@/config';
 
 const methods = ['get', 'post', 'delete', 'put'];
 
@@ -27,8 +28,12 @@ class Request {
   constructor() {
     methods.forEach((method) => {
       this[method] = (url, options = {}) =>
-        axios({ method, url, ...options })
-          .then(this.checkStatus)
+        axios({
+          method,
+          baseURL,
+          url,
+          ...options,
+        }).then(this.checkStatus)
           .then(this.parseResponse)
           .catch(this.dealError);
     });
