@@ -24,7 +24,8 @@ module.exports = merge(baseWebpackConfig, {
           MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { importLoaders: 1 } },
           'postcss-loader',
-          'less-loader'
+          // https://github.com/ant-design/ant-design/issues/7927#issuecomment-372513256
+          { loader: 'less-loader', options: { javascriptEnabled: true } }
         ]
       }
     ]
