@@ -1,5 +1,5 @@
-config/
-webpack/
-scripts/
-node_modules/
-mock/
+./config/
+./webpack/
+./scripts/
+./node_modules/
+./mock/
