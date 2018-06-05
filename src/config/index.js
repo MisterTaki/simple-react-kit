@@ -1,4 +1,4 @@
-const NODE_ENV = process.env.NODE_ENV;
+const { NODE_ENV } = process.env;
 
 const baseURLs = {
   development: '',
@@ -6,4 +6,4 @@ const baseURLs = {
   production: '',
 };
 
-export const baseURL = baseURLs[NODE_ENV];
+export const baseURL = baseURLs[NODE_ENV]; // eslint-disable-line import/prefer-default-export
