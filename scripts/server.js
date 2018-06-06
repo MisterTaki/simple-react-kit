@@ -14,6 +14,7 @@ const mock = require('./utils/mock');
 const webpackConfig = require('../webpack/webpack.dev.js');
 const { devServer } = require('../config');
 
+const argv = require('minimist')(process.argv.slice(2));
 
 function addDevClientToEntry (config, devClient) {
   const { entry } = config;
@@ -41,11 +42,13 @@ async function server () {
 
   const { https, host, port, open, before } = devServer;
 
-  devServer.before = mock(
-    devServer,
-    path.resolve(__dirname, '../mock/index.js'),
-    before
-  );
+  if (!argv.proxy) {
+    devServer.before = mock(
+      devServer,
+      path.resolve(__dirname, '../mock/index.js'),
+      before
+    );
+  }
 
   portfinder.basePort = port;
 

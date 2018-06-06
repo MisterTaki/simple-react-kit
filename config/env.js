@@ -5,3 +5,7 @@ exports.devEnv = {
 exports.prodEnv = {
   NODE_ENV: '"production"'
 };
+
+exports.testEnv = {
+  NODE_ENV: '"test"'
+};

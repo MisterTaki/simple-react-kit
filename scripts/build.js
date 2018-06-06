@@ -6,6 +6,7 @@ const zlib = require('zlib');
 const ui = require('cliui')({ width: 80 });
 const chalk = require('chalk');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const {
   log,
   done,
@@ -14,7 +15,34 @@ const {
   stopSpinner
 } = require('@vue/cli-shared-utils');
 
+const { testEnv } = require('../config');
 const webpackConfig = require('../webpack/webpack.prod.js');
+
+const argv = require('minimist')(process.argv.slice(2));
+
+let _webpackConfig = webpackConfig;
+
+if (argv.test) {
+  let DefinePluginIndex;
+  webpackConfig.plugins.some((item, index) => {
+    if (item.constructor.name === 'DefinePlugin') {
+      DefinePluginIndex = index;
+      return true;
+    }
+    return false;
+  })
+  webpackConfig.plugins.splice(DefinePluginIndex, 1);
+  _webpackConfig = merge(webpackConfig, {
+    output: {
+      path: path.resolve(__dirname, '../dist_qa')
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': testEnv
+      })
+    ]
+  });
+}
 
 function formatStats (stats, dir) {
   const json = stats.toJson({
@@ -52,7 +80,7 @@ function formatStats (stats, dir) {
   }
 
   function getGzippedSize (asset) {
-    const filepath = path.resolve(webpackConfig.output.path, asset.name)
+    const filepath = path.resolve(_webpackConfig.output.path, asset.name)
     const buffer = fs.readFileSync(filepath)
     return formatSize(zlib.gzipSync(buffer).length)
   }
@@ -84,12 +112,12 @@ async function build () {
 
   logWithSpinner(`Building for production...`);
 
-  const targetDir = webpackConfig.output.path;
+  const targetDir = _webpackConfig.output.path;
 
   await fs.remove(targetDir);
 
   return new Promise((resolve, reject) => {
-    webpack(webpackConfig, (err, stats) => {
+    webpack(_webpackConfig, (err, stats) => {
       stopSpinner(false);
       if (err) {
         return reject(err);
