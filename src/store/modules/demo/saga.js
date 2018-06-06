@@ -3,18 +3,18 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import test from '@/api/demo';
 import * as actions from './action';
 
-const { user } = actions;
+const { loadUserTypes, LOAD_USER } = actions;
 
 function* loadUser({ params }) {
-  yield put(user.request());
+  yield put(loadUserTypes.request());
   const { data, error } = yield call(test, params);
   if (data) {
-    yield put(user.success(data));
+    yield put(loadUserTypes.success(data));
   } else {
-    yield put(user.failure(error));
+    yield put(loadUserTypes.failure(error));
   }
 }
 
 export default [
-  takeLatest(actions.LOAD_USER, loadUser),
+  takeLatest(LOAD_USER, loadUser),
 ];

@@ -3,18 +3,22 @@ import { DEFAULT, REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
 const NAME_SPACE = 'demo';
 
-export const USER = createRequestTypes(NAME_SPACE, 'USER');
-export const LOAD_USER = USER[DEFAULT];
-export const loadUser = id => createAction(USER[DEFAULT], { id });
+export const LOAD_USER_TYPES = createRequestTypes(NAME_SPACE, 'LOAD_USER');
 
-export const user = {
+export const LOAD_USER = LOAD_USER_TYPES[DEFAULT];
+
+export const loadUser = id => createAction(LOAD_USER_TYPES[DEFAULT], { id });
+
+export const loadUserTypes = {
   request: () => ({
-    type: USER[REQUEST],
+    type: LOAD_USER_TYPES[REQUEST],
   }),
-  success: () => ({
-    type: USER[SUCCESS],
+  success: ({ id }) => ({
+    type: LOAD_USER_TYPES[SUCCESS],
+    id,
   }),
-  failure: () => ({
-    type: USER[FAILURE],
+  failure: error => ({
+    type: LOAD_USER_TYPES[FAILURE],
+    error,
   }),
 };

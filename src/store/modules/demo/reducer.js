@@ -1,7 +1,7 @@
 import { switchCase } from '@/utils';
 import { REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
-import { USER } from './action';
+import { LOAD_USER_TYPES } from './action';
 
 const initialState = {
   user: {},
@@ -9,18 +9,18 @@ const initialState = {
 
 export default (state = initialState, action = {}) => (
   switchCase({
-    [USER[REQUEST]]: {
+    [LOAD_USER_TYPES[REQUEST]]: {
       ...state,
       loading: true,
       loaded: false,
     },
-    [USER[SUCCESS]]: {
+    [LOAD_USER_TYPES[SUCCESS]]: {
       ...state,
       loading: false,
       loaded: true,
       user: action.data,
     },
-    [USER[FAILURE]]: {
+    [LOAD_USER_TYPES[FAILURE]]: {
       ...state,
       loading: false,
       loaded: false,
