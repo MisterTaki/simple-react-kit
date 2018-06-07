@@ -1,5 +1,7 @@
+const path = require('path');
 const fs = require('fs');
-const assert = require('assert');
+const chokidar = require('chokidar');
+const { info, warn, done } = require('@vue/cli-shared-utils');
 
 const METHOD = ['get', 'post', 'put', 'delete', 'proxy'];
 const VALUE_TYPE = ['function', 'object', 'string'];
@@ -17,38 +19,24 @@ function parseKey(key) {
   return { method, path };
 }
 
-function createMockHandler(method, path, value) {
-  return function mockHandler(req, res, next) {
-    if (typeof value === 'function') {
-      value(req, res, next);
-    } else {
-      res.json(value);
-    }
-  };
-}
-
-module.exports = function (devServer, mockFile, customBefore) {
-  if (!fs.existsSync(mockFile)) {
-    if (customBefore) {
-      return customBefore;
-    }
-    return undefined;
-  }
-
-  const mockConfig = require(mockFile);
-
-  const mockKeys = Object.keys(mockConfig);
-
-  mockKeys.forEach(key => {
+function checkMocks(mockConfig, mockKeys, devServer) {
+  return mockKeys.some(key => {
     const { method, path } = parseKey(key);
+
     if (METHOD.indexOf(method) < 0) {
-      throw new Error(`method of ${key} is not valid`);
+      warn(`Method of ${key} is not valid`);
+      return true;
     }
+
     const value = mockConfig[key];
+
     const valueType = typeof value;
+
     if (VALUE_TYPE.indexOf(valueType) < 0) {
-      throw new Error(`mock value of ${key} should be function or object or string, but got ${valueType}`);
+      warn(`Mock value of ${key} should be function or object or string, but got ${valueType}`);
+      return true;
     }
+
     if (method === 'proxy') {
       const proxyValue = valueType === 'string' ? {
         target: value,
@@ -59,20 +47,85 @@ module.exports = function (devServer, mockFile, customBefore) {
         ...devServer.proxy,
         [path]: proxyValue,
       };
+
+      return false;
+    }
+
+    if (valueType === 'string') {
+      warn(`Mock value of ${key} should be function or object, but got string`);
       return true;
     }
-    if (valueType === 'string') {
-      throw new Error(`mock value of ${key} should be function or object, but got string`);
-    }
+
+    return false;
   })
+}
+
+function cleanCache(modulePath) {
+  const module = require.cache[modulePath];
+  // remove reference in module.parent
+  if (module.parent) {
+    module.parent.children.splice(module.parent.children.indexOf(module), 1);
+  }
+  require.cache[modulePath] = null;
+}
+
+const mock = function (devServer, customBefore, mockFile, mockDir) {
+  if (!fs.existsSync(mockFile)) {
+    if (customBefore) {
+      return customBefore;
+    }
+    return undefined;
+  }
+
+  let mockConfig = require(mockFile);
+
+  let mockKeys = Object.keys(mockConfig);
+
+  const hasError = checkMocks(mockConfig, mockKeys, devServer);
+
+  if (hasError) {
+    warn('Please modify mock files and retry...');
+    mockConfig = {};
+    mockKeys = [];
+  } else {
+    info('Start mock server successfully!');
+  }
 
   return function(app) {
-    mockKeys.forEach(key => {
-      const { method, path } = parseKey(key);
-      if (method==='proxy') {
+    const _mockDir = mockDir ? mockDir : path.resolve(mockFile, '..');
+    const watcher = chokidar.watch([mockFile, _mockDir]);
+
+    watcher.on('change', () => {
+      info('Mock files changed...');
+      cleanCache(mockFile);
+
+      const newMockConfig = require(mockFile);
+      const newMockKeys = Object.keys(newMockConfig);
+      const hasError = checkMocks(newMockConfig, newMockKeys, devServer);
+
+      if (hasError) {
+        warn('Please modify mock files and retry...');
         return false;
       }
-      return app[method](path, createMockHandler(method, path, mockConfig[key]));
+
+      done('Update mock server successfully!');
+      mockConfig = newMockConfig;
+      mockKeys = newMockKeys;
+      return true;
     });
+
+    app.all('/*', function (req, res, next) {
+      const mockKey = `${req.method} ${req.path}`;
+      const mockValue = mockConfig[mockKey];
+      if (mockValue) {
+        if (typeof mockValue === 'function') {
+          return mockValue(req, res, next);
+        }
+        return res.json(mockValue);
+      }
+      return next();
+    })
   }
 }
+
+module.exports = mock;

@@ -45,8 +45,8 @@ async function server () {
   if (!argv.proxy) {
     devServer.before = mock(
       devServer,
+      before,
       path.resolve(__dirname, '../mock/index.js'),
-      before
     );
   }
 
