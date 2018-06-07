@@ -1,3 +1,6 @@
+// https://github.com/jaywcjlove/webpack-api-mocker/blob/master/index.js
+// https://github.com/sorrycc/roadhog/blob/master/src/utils/mock.js
+
 const path = require('path');
 const fs = require('fs');
 const chokidar = require('chokidar');
