@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.48",
+    "@babel/runtime": "^7.0.0-beta.49",
     "antd": "^3.5.4",
     "axios": "^0.18.0",
     "history": "^4.7.2",
@@ -51,17 +51,17 @@
     "redux-saga": "^0.16.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.48",
+    "@babel/core": "^7.0.0-beta.49",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.49",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.48",
-    "@babel/preset-env": "^7.0.0-beta.48",
-    "@babel/preset-react": "^7.0.0-beta.48",
-    "@babel/preset-stage-0": "^7.0.0-beta.48",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.49",
+    "@babel/preset-stage-0": "^7.0.0-beta.49",
     "@vue/cli-shared-utils": "^3.0.0-beta.12",
     "address": "^1.0.3",
     "autoprefixer": "^8.5.0",
     "babel-eslint": "^8.2.3",
-    "babel-loader": "^8.0.0-beta.3",
+    "babel-loader": "^8.0.0-beta",
     "babel-plugin-import": "^1.7.0",
     "cache-loader": "^1.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
