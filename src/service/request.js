@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import { push } from 'react-router-redux';
 import { store } from '@/store';
 import { baseURL } from '@/config';
+import { APIError } from '@/utils';
 
 const methods = ['get', 'post', 'delete', 'put'];
 
@@ -41,17 +42,21 @@ class Request {
 
   checkStatus = (response) => {
     console.log(`checkStatus:${response}`);
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    }
+    // if (response.status >= 200 && response.status < 300) {
+    //   return response;
+    // }
+    const { status } = response;
     const errorText = codeMessage[response.status] || response.statusText;
     notification.error({
       message: `请求错误 ${response.status}: ${response.url}`,
       description: errorText,
     });
-    const error = new Error(errorText);
-    error.name = response.status;
-    error.response = response;
+    const errors = new Error(errorText);
+    errors.status = status;
+    errors.response = response;
+    console.log(`Error: ${errors}`);
+    const error = new APIError(errorText, status, response);
+    console.log(`APIError: ${error}`);
     throw error;
   }
 
@@ -72,7 +77,7 @@ class Request {
   dealError = (error) => {
     console.log(`dealError:${error}`);
     const { dispatch } = store;
-    const status = error.name;
+    const { status } = error;
     if (status === 401) {
       dispatch({
         type: 'login/logout',
