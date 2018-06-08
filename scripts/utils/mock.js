@@ -4,7 +4,7 @@
 const path = require('path');
 const fs = require('fs');
 const chokidar = require('chokidar');
-const { info, warn, done } = require('@vue/cli-shared-utils');
+const { clearConsole, log, info, warn, done } = require('@vue/cli-shared-utils');
 
 const METHOD = ['get', 'post', 'put', 'delete', 'proxy'];
 const VALUE_TYPE = ['function', 'object', 'string'];
@@ -88,10 +88,12 @@ const mock = function (devServer, customBefore, mockFile, mockDir) {
 
   if (hasError) {
     warn('Please modify mock files and retry...');
+    log();
     mockConfig = {};
     mockKeys = [];
   } else {
     info('Start mock server successfully!');
+    log();
   }
 
   return function(app) {
@@ -108,10 +110,13 @@ const mock = function (devServer, customBefore, mockFile, mockDir) {
 
       if (hasError) {
         warn('Please modify mock files and retry...');
+        log();
         return false;
       }
 
+      clearConsole();
       done('Update mock server successfully!');
+      log();
       mockConfig = newMockConfig;
       mockKeys = newMockKeys;
       return true;
