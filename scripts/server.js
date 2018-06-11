@@ -7,10 +7,9 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const portfinder = require('portfinder');
 const openBrowser = require('react-dev-utils/openBrowser');
-const { info, hasYarn } = require('@vue/cli-shared-utils');
 const { prepareProxy, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
 
-const mock = require('./utils/mock');
+const { mock, info, hasYarn } = require('./utils');
 const webpackConfig = require('../webpack/webpack.dev.js');
 const { devServer } = require('../config');
 

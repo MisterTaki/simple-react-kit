@@ -1,7 +1,10 @@
+// https://github.com/vuejs/vue-cli/blob/dev/packages/%40vue/cli-plugin-eslint/lint.js
+
 const path = require('path');
 const chalk = require('chalk');
 const { CLIEngine } = require('eslint');
-const { log, done } = require('@vue/cli-shared-utils');
+
+const { log, done } = require('./utils');
 
 const files = ['src/'];
 

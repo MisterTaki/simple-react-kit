@@ -7,14 +7,14 @@ const ui = require('cliui')({ width: 80 });
 const chalk = require('chalk');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+
 const {
   log,
   done,
   info,
   logWithSpinner,
   stopSpinner
-} = require('@vue/cli-shared-utils');
-
+} = require('./utils');
 const { testEnv } = require('../config');
 const webpackConfig = require('../webpack/webpack.prod.js');
 

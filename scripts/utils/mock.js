@@ -4,7 +4,7 @@
 const path = require('path');
 const fs = require('fs');
 const chokidar = require('chokidar');
-const { clearConsole, log, info, warn, done } = require('@vue/cli-shared-utils');
+const { clearConsole, log, info, warn, done } = require('./logger');
 
 const METHOD = ['get', 'post', 'put', 'delete', 'proxy'];
 const VALUE_TYPE = ['function', 'object', 'string'];
@@ -72,7 +72,7 @@ function cleanCache(modulePath) {
   require.cache[modulePath] = null;
 }
 
-const mock = function (devServer, customBefore, mockFile, mockDir) {
+exports.mock = function (devServer, customBefore, mockFile, mockDir) {
   if (!fs.existsSync(mockFile)) {
     if (customBefore) {
       return customBefore;
@@ -134,6 +134,4 @@ const mock = function (devServer, customBefore, mockFile, mockDir) {
       return next();
     })
   }
-}
-
-module.exports = mock;
+};
