@@ -22,7 +22,14 @@ module.exports = merge(baseWebpackConfig, {
         test: /\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true, // https://webpack.js.org/loaders/css-loader/#modules
+              localIdentName: '[local]--[hash:base64:5]',
+              importLoaders: 2, // https://webpack.js.org/loaders/css-loader/#importloaders
+            }
+          },
           'postcss-loader',
           // https://github.com/ant-design/ant-design/issues/7927#issuecomment-372513256
           { loader: 'less-loader', options: { javascriptEnabled: true } }
