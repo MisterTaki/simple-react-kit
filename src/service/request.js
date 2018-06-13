@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 import { push } from 'react-router-redux';
 import { store } from '@/store';
 import { baseURL } from '@/config';
@@ -41,58 +41,65 @@ class Request {
   }
 
   checkStatus = (response) => {
-    console.log(`checkStatus:${response}`);
-    // if (response.status >= 200 && response.status < 300) {
-    //   return response;
-    // }
+    console.log(`checkStatus: ${response}`);
     const { status } = response;
-    const errorText = codeMessage[response.status] || response.statusText;
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    }
+    const { statusText, config: { url } } = response;
+    const errorText = codeMessage[status] || statusText;
+    notification.destroy();
     notification.error({
-      message: `请求错误 ${response.status}: ${response.url}`,
+      message: `请求错误 ${status}: ${url}`,
       description: errorText,
     });
-    const errors = new Error(errorText);
-    errors.status = status;
-    errors.response = response;
-    console.log(`Error: ${errors}`);
-    const error = new APIError(errorText, status, response);
-    console.log(`APIError: ${error}`);
+
+    const error = new APIError(errorText, status, response, 'failure');
     throw error;
   }
 
   parseResponse = (response) => {
-    console.log(`parseResponse:${response}`);
+    console.log(`parseResponse: ${response}`);
     const { data, status } = response;
-
     if (data.errno * 1 === 0) {
       return { data };
     }
     // 后端接口错误
-    const error = new Error(data.msg);
-    error.name = status;
-    error.response = response;
+    const { errmsg: errorText } = data;
+    message.destroy();
+    message.error(errorText);
+
+    const error = new APIError(errorText, status, response, 'success');
     throw error;
   }
 
   dealError = (error) => {
-    console.log(`dealError:${error}`);
-    const { dispatch } = store;
-    const { status } = error;
-    if (status === 401) {
-      dispatch({
-        type: 'login/logout',
-      });
+    if (error instanceof APIError) {
+      console.log(`dealError APIError: ${error}`);
+      if (error.result === 'failure') {
+        const { dispatch } = store;
+        const { status } = error;
+        if (status === 401) {
+          dispatch({ type: 'auth/LOG_OUT' });
+        }
+        if (status === 403) {
+          dispatch(push('/403'));
+        }
+      }
+      return { error };
     }
-    if (status === 403) {
-      dispatch(push('/403'));
-    }
-    if (status <= 504 && status >= 500) {
-      dispatch(push('/500'));
-    }
-    if (status >= 404 && status < 422) {
-      dispatch(push('/404'));
-    }
-    return { error };
+    console.log(`dealError defaultError: ${error}`);
+    const { response } = error;
+    const { status, statusText, config: { url } } = response;
+    const errorText = codeMessage[status] || statusText;
+    notification.destroy();
+    notification.error({
+      message: `请求错误 ${status}: ${url}`,
+      description: errorText,
+    });
+    return {
+      error: new APIError(errorText, status, response, 'failure'),
+    };
   }
 }
 
