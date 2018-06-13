@@ -3,7 +3,7 @@ import { notification, message } from 'antd';
 import { push } from 'react-router-redux';
 import { store } from '@/store';
 import { baseURL } from '@/config';
-import { APIError } from '@/utils';
+import APIError from './APIError';
 
 const methods = ['get', 'post', 'delete', 'put'];
 
