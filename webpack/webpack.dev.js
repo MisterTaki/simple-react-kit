@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const baseWebpackConfig = require('./webpack.common.js');
 
 const { devEnv } = require('../config');
@@ -44,6 +45,16 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: path.resolve(__dirname, '../public/index.html'),
       BASE_URL: './'
+    }),
+    // https://github.com/GoogleChromeLabs/preload-webpack-plugin
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      include: 'initial',
+      fileBlacklist: [/\.map$/, /hot-update\.js$/]
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'prefetch',
+      include: 'asyncChunks'
     }),
     // https://webpack.js.org/plugins/hot-module-replacement-plugin
     new webpack.HotModuleReplacementPlugin()

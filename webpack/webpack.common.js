@@ -1,5 +1,4 @@
 const path = require('path');
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -105,16 +104,6 @@ module.exports = {
   },
 
   plugins: [
-    // https://github.com/GoogleChromeLabs/preload-webpack-plugin
-    new PreloadWebpackPlugin({
-      rel: 'preload',
-      include: 'initial',
-      fileBlacklist: [/\.map$/, /hot-update\.js$/]
-    }),
-    new PreloadWebpackPlugin({
-      rel: 'prefetch',
-      include: 'asyncChunks'
-    }),
     // https://github.com/geowarin/friendly-errors-webpack-plugin
     new FriendlyErrorsPlugin(),
     // https://github.com/Urthen/case-sensitive-paths-webpack-plugin
