@@ -1,7 +1,7 @@
 {
-  "name": "simple-react-app",
+  "name": "simple-react-kit",
   "version": "0.0.1",
-  "description": "A simple react apps with webpack-V4 build configuration.",
+  "description": "A simple react kit with webpack-V4 build configuration.",
   "keywords": [
     "react",
     "webpack"
@@ -10,12 +10,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/MisterTaki/simple-react-app.git"
+    "url": "git+ssh://git@github.com/MisterTaki/simple-react-kit.git"
   },
   "bugs": {
-    "url": "https://github.com/MisterTaki/simple-react-app/issues"
+    "url": "https://github.com/MisterTaki/simple-react-kit/issues"
   },
-  "homepage": "https://github.com/MisterTaki/simple-react-app#readme",
+  "homepage": "https://github.com/MisterTaki/simple-react-kit#readme",
   "main": "src/index.js",
   "scripts": {
     "dev": "node scripts/server.js",

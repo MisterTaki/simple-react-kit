@@ -1,1 +1,1 @@
-# Simple React App
+# Simple React Kit
