@@ -71,7 +71,7 @@ module.exports = merge(baseWebpackConfig, {
     new PreloadWebpackPlugin({
       rel: 'preload',
       include: 'initial',
-      fileBlacklist: [/\.map$/, /hot-update\.js$/]
+      fileBlacklist: [/\.map$/]
     }),
     new PreloadWebpackPlugin({
       rel: 'prefetch',
