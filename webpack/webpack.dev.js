@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const baseWebpackConfig = require('./webpack.common.js');
 
 const { devEnv } = require('../config');
@@ -38,6 +39,11 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.ProgressPlugin(),
     new webpack.DefinePlugin({
       'process.env': devEnv,
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../public/index.html'),
+      BASE_URL: './'
     }),
     // https://webpack.js.org/plugins/hot-module-replacement-plugin
     new webpack.HotModuleReplacementPlugin()

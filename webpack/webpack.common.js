@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -106,11 +105,6 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, '../public/index.html'),
-      BASE_URL: './'
-    }),
     // https://github.com/GoogleChromeLabs/preload-webpack-plugin
     new PreloadWebpackPlugin({
       rel: 'preload',
