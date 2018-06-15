@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const baseWebpackConfig = require('./webpack.common.js');
 
@@ -92,6 +93,7 @@ module.exports = merge(baseWebpackConfig, {
       canPrint: false
     }),
     // https://webpack.js.org/plugins/hashed-module-ids-plugin
-    new webpack.HashedModuleIdsPlugin()
+    new webpack.HashedModuleIdsPlugin(),
+    new BundleAnalyzerPlugin()
   ],
 });
