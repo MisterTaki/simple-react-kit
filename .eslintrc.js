@@ -15,13 +15,7 @@ module.exports = {
   rules: {
     // custom rules here
     'no-console': 'off',
-    'max-len': ['error', 80, 2, {
-      ignoreUrls: true,
-      ignoreComments: true,
-      ignoreRegExpLiterals: true,
-      ignoreStrings: true,
-      ignoreTemplateLiterals: true,
-    }],
+    'max-len': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'react/prop-types': ['warn', { ignore: ['className'] }],
   },
