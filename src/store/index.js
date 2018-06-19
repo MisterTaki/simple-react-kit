@@ -5,8 +5,8 @@ import createHistory from 'history/createBrowserHistory';
 
 import { REPLACE_SAGAS } from '@/const/requestTypes';
 import { loadingMiddleware } from './middlewares';
-import * as reducers from './modules/reducers';
-import sagas from './modules/sagas';
+import * as reducers from './reducers';
+import sagas from './sagas';
 
 // https://github.com/zalmoxisus/redux-devtools-extension
 let composeEnhancers = compose;
@@ -42,8 +42,8 @@ sagaMiddleware.run(sagas);
 if (module.hot) {
   // Enable Webpack hot module replacement for reducers
   // https://github.com/reduxjs/react-redux/releases/tag/v2.0.0
-  module.hot.accept('./modules/reducers.js', () => {
-    const nextRootReducer = require('./modules/reducers.js');
+  module.hot.accept('./reducers.js', () => {
+    const nextRootReducer = require('./reducers.js');
     store.replaceReducer(combineReducers({
       ...nextRootReducer,
       router: routerReducer,
@@ -51,8 +51,8 @@ if (module.hot) {
   });
   // Enable Webpack hot module replacement for sagas
   // https://stackoverflow.com/questions/37148592/redux-saga-hot-reloading
-  module.hot.accept('./modules/sagas.js', () => {
-    const { rootSagas: nextSagas } = require('./modules/sagas.js');
+  module.hot.accept('./sagas.js', () => {
+    const { rootSagas: nextSagas } = require('./sagas.js');
     store.dispatch({ type: REPLACE_SAGAS, nextSagas });
   });
 }

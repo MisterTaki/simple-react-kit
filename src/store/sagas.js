@@ -1,14 +1,14 @@
 import { fork, take, cancel, all } from 'redux-saga/effects';
 
 import { REPLACE_SAGAS } from '@/const/requestTypes';
-import demo from './demo/saga';
+import demo from '@/views/Demo/state/saga';
+
+// https://github.com/redux-saga/redux-saga/issues/160
+export const rootSagas = [...demo];
 
 function* startSaga(sagas) {
   yield all(sagas);
 }
-
-// https://github.com/redux-saga/redux-saga/issues/160
-export const rootSagas = [...demo];
 
 // https://gist.github.com/mpolci/f44635dc761955730f8479b271151cf2
 export default process.env.NODE_ENV === 'development' ?

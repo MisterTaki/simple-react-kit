@@ -5,9 +5,9 @@ import * as actions from './action';
 
 const { loadUserTypes, LOAD_USER } = actions;
 
-function* loadUser({ params }) {
+function* loadUser({ id }) {
   yield put(loadUserTypes.request());
-  const { data, error } = yield call(test, params);
+  const { data, error } = yield call(test, { id });
   if (data) {
     yield put(loadUserTypes.success(data));
   } else {
