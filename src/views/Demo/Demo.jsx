@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { message } from 'antd';
 
 import * as actions from './state/action';
 import './Demo.less';
@@ -13,17 +14,14 @@ export default class Demo extends Component {
     loadUser: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-
-    };
-  }
-
   handleLoadUser = (e) => {
     e.preventDefault();
-    this.props.loadUser('7');
+    this.props.loadUser('7').then(({ data }) => {
+      if (data) {
+        message.destroy();
+        message.success('success');
+      }
+    });
   }
 
   render() {

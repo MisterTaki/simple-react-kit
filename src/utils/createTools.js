@@ -10,5 +10,22 @@ export const createRequestTypes = (namespace, type) =>
 
 export const createAction = (type, payload = {}) => ({
   type,
-  ...payload,
+  payload,
 });
+
+// export const createAsyncAction = (type, payload = {}) => dispatch =>
+//   new Promise((resolve, reject) => dispatch({
+//     type,
+//     payload,
+//     resolve,
+//     reject,
+//   }));
+
+export const createAsyncAction = (type, payload = {}) => dispatch => (
+  new Promise((resolve, reject) => dispatch({
+    type,
+    payload,
+    resolve,
+    reject,
+  })).then(data => ({ data })).catch(error => ({ error }))
+);
