@@ -25,22 +25,31 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+const defaultConfig = {
+  showError: true,
+};
+
 class Request {
   constructor() {
     methods.forEach((method) => {
-      this[method] = (url, options = {}) =>
-        axios({
+      this[method] = (url, options = {}, customConfig = defaultConfig) => {
+        const config = {
+          ...defaultConfig,
+          ...customConfig,
+        };
+        return axios({
           method,
           baseURL,
           url,
           ...options,
-        }).then(this.checkStatus)
-          .then(this.parseResponse)
-          .catch(this.dealError);
+        }).then(res => this.checkStatus(res, config))
+          .then(res => this.parseResponse(res, config))
+          .catch(err => this.dealError(err, config));
+      };
     });
   }
 
-  checkStatus = (response) => {
+  checkStatus = (response, { showError }) => {
     console.log(`checkStatus: ${response}`);
     const { status } = response;
     if (response.status >= 200 && response.status < 300) {
@@ -48,17 +57,18 @@ class Request {
     }
     const { statusText, config: { url } } = response;
     const errorText = codeMessage[status] || statusText;
-    notification.destroy();
-    notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
-    });
-
+    if (showError) {
+      notification.destroy();
+      notification.error({
+        message: `请求错误 ${status}: ${url}`,
+        description: errorText,
+      });
+    }
     const error = new APIError(errorText, status, response, 'failure');
     throw error;
   }
 
-  parseResponse = (response) => {
+  parseResponse = (response, { showError }) => {
     console.log(`parseResponse: ${response}`);
     const { data, status } = response;
     if (data.errno * 1 === 0) {
@@ -66,14 +76,15 @@ class Request {
     }
     // 后端接口错误
     const { errmsg: errorText } = data;
-    message.destroy();
-    message.error(errorText);
-
+    if (showError) {
+      message.destroy();
+      message.error(errorText);
+    }
     const error = new APIError(errorText, status, response, 'success');
     throw error;
   }
 
-  dealError = (error) => {
+  dealError = (error, { showError }) => {
     if (error instanceof APIError) {
       console.log(`dealError APIError: ${error}`);
       if (error.result === 'failure') {
@@ -92,11 +103,13 @@ class Request {
     const { response } = error;
     const { status, statusText, config: { url } } = response;
     const errorText = codeMessage[status] || statusText;
-    notification.destroy();
-    notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
-    });
+    if (showError) {
+      notification.destroy();
+      notification.error({
+        message: `请求错误 ${status}: ${url}`,
+        description: errorText,
+      });
+    }
     return {
       error: new APIError(errorText, status, response, 'failure'),
     };
