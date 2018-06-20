@@ -2,6 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
 const SAGA_SUFFIX = `_${REQUEST}`;
+const SAGA_SUFFIX_REGEXP = new RegExp(`${SAGA_SUFFIX}$`);
 
 function* sagaRequest({
   type,
@@ -16,7 +17,7 @@ function* sagaRequest({
       yield call(resolve, data);
     }
     yield put({
-      type: type.replace(SAGA_SUFFIX, `_${SUCCESS}`),
+      type: type.replace(SAGA_SUFFIX_REGEXP, `_${SUCCESS}`),
       data,
     });
   } else {
@@ -24,7 +25,7 @@ function* sagaRequest({
       yield call(reject, error);
     }
     yield put({
-      type: type.replace(SAGA_SUFFIX, `_${FAILURE}`),
+      type: type.replace(SAGA_SUFFIX_REGEXP, `_${FAILURE}`),
       error,
     });
   }
