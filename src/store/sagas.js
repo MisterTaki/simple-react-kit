@@ -1,10 +1,10 @@
 import { fork, take, cancel, all } from 'redux-saga/effects';
 
 import { REPLACE_SAGAS } from '@/const/requestTypes';
-import demo from '@/views/Demo/state/saga';
+import global from './state/saga';
 
 // https://github.com/redux-saga/redux-saga/issues/160
-export const rootSagas = [...demo];
+export const rootSagas = [...global];
 
 function* startSaga(sagas) {
   yield all(sagas);

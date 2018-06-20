@@ -1,11 +1,11 @@
-import { DEFAULT, REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
+import { REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
 export const createType = (namespace, type) => `${namespace}/${type}`;
 
 export const createRequestTypes = (namespace, type) =>
-  [DEFAULT, REQUEST, SUCCESS, FAILURE].reduce((result, suffix) => ({
+  [REQUEST, SUCCESS, FAILURE].reduce((result, suffix) => ({
     ...result,
-    [suffix]: suffix === DEFAULT ? `${namespace}/${type}` : `${namespace}/${type}_${suffix}`,
+    [suffix]: `${namespace}/${type}_${suffix}`,
   }), {});
 
 export const createAction = (type, payload = {}) => ({
@@ -13,17 +13,10 @@ export const createAction = (type, payload = {}) => ({
   payload,
 });
 
-// export const createAsyncAction = (type, payload = {}) => dispatch =>
-//   new Promise((resolve, reject) => dispatch({
-//     type,
-//     payload,
-//     resolve,
-//     reject,
-//   }));
-
-export const createAsyncAction = (type, payload = {}) => dispatch => (
+export const createAsyncAction = (type, request, payload = {}) => dispatch => (
   new Promise((resolve, reject) => dispatch({
     type,
+    request,
     payload,
     resolve,
     reject,
