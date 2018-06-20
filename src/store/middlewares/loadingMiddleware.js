@@ -10,15 +10,11 @@ export default function (config = {}) {
     if (action.type) {
       const [request, success, failure] = promiseTypeSuffixes;
 
-      const isStart = new RegExp(`_${request}$`, 'g');
-      const isSuccess = new RegExp(`_${success}$`, 'g');
-      const isError = new RegExp(`_${failure}$`, 'g');
-
-      if (action.type.match(isStart)) {
+      if (action.type.endsWith(`_${request}`)) {
         dispatch(startLoading());
-      } else if (action.type.match(isSuccess)) {
+      } else if (action.type.endsWith(`_${success}`)) {
         dispatch(successLoading());
-      } else if (action.type.match(isError)) {
+      } else if (action.type.endsWith(`_${failure}`)) {
         dispatch(failureLoading());
       }
     }
