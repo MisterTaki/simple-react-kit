@@ -8,7 +8,7 @@ module.exports = {
       errmsg: '操作成功!',
       data: {
         id: 1,
-        msg: 'success',
+        name: 'gaoqi',
       },
     })
   ),
