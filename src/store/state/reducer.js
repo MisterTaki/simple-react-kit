@@ -1,23 +1,15 @@
+import { Map } from 'immutable';
 import { switchCase } from '@/utils';
 import { START, SUCCESS, FAILURE } from './action';
 
-const initialState = {
+const initialState = Map({
   loading: 'initialize',
-};
+});
 
-export default (state = initialState, action = {}) => (
+export default (state = initialState, { type } = {}) => (
   switchCase({
-    [START]: {
-      ...state,
-      loading: 'start',
-    },
-    [SUCCESS]: {
-      ...state,
-      loading: 'success',
-    },
-    [FAILURE]: {
-      ...state,
-      loading: 'failure',
-    },
-  })(state)(action.type)
+    [START]: state.set('loading', 'start'),
+    [SUCCESS]: state.set('loading', 'success'),
+    [FAILURE]: state.set('loading', 'failure'),
+  })(state)(type)
 );
