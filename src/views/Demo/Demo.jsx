@@ -1,17 +1,29 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { message } from 'antd';
+import { toJS } from '@/components/HOC';
 
 import * as actions from './state/action';
 import './Demo.less';
 
-@connect(null, {
+@connect(state => ({
+  user: state.getIn(['demo', 'user']),
+}), {
   loadUser: actions.loadUser,
 })
-export default class Demo extends Component {
+@toJS
+export default class Demo extends PureComponent {
   static propTypes = {
     loadUser: PropTypes.func.isRequired,
+  }
+
+  // shouldComponentUpdate(nextProps) {
+  //   return !shallowEqual(this.props, nextProps);
+  // }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate');
   }
 
   handleLoadUser = (e) => {
