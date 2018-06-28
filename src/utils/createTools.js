@@ -2,11 +2,11 @@ import { REQUEST, SUCCESS, FAILURE } from '@/const/requestTypes';
 
 export const createType = (namespace, type) => `${namespace}/${type}`;
 
-export const createRequestTypes = (namespace, type) =>
+export const createRequestTypes = (namespace, type) => (
   [REQUEST, SUCCESS, FAILURE].reduce((result, suffix) => ({
     ...result,
     [suffix]: `${namespace}/${type}_${suffix}`,
-  }), {});
+  }), {}));
 
 export const createAction = (type, payload = {}) => ({
   type,

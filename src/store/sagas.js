@@ -1,4 +1,9 @@
-import { fork, take, cancel, all } from 'redux-saga/effects';
+import {
+  fork,
+  take,
+  cancel,
+  all,
+} from 'redux-saga/effects';
 
 import { REPLACE_SAGAS } from '@/const/requestTypes';
 import global from './state/saga';
@@ -11,8 +16,8 @@ function* startSaga(sagas) {
 }
 
 // https://gist.github.com/mpolci/f44635dc761955730f8479b271151cf2
-export default process.env.NODE_ENV === 'development' ?
-  function* dynamicSaga() {
+export default process.env.NODE_ENV === 'development'
+  ? function* dynamicSaga() {
     let rootTask = yield fork(startSaga, rootSagas);
     while (true) {
       const { nextSagas } = yield take(REPLACE_SAGAS);

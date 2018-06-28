@@ -28,7 +28,8 @@ export default class Demo extends PureComponent {
 
   handleLoadUser = (e) => {
     e.preventDefault();
-    this.props.loadUser('7').then(({ data }) => {
+    const { loadUser } = this.props;
+    loadUser('7').then(({ data }) => {
       if (data) {
         message.destroy();
         message.success('success');
@@ -39,8 +40,15 @@ export default class Demo extends PureComponent {
   render() {
     return (
       <div>
-        <h1 className="demo">Demo</h1>
-        <button onClick={this.handleLoadUser}>load user</button>
+        <h1 className="demo">
+          Demo
+        </h1>
+        <button
+          type="button"
+          onClick={this.handleLoadUser}
+        >
+          load user
+        </button>
       </div>
     );
   }

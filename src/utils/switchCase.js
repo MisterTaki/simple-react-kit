@@ -8,5 +8,4 @@ const switchCase = cases => defaultCase => key => (
   Object.prototype.hasOwnProperty.call(cases, key) ? cases[key] : defaultCase
 );
 
-export default cases => defaultCase => key =>
-  executeIfFunction(switchCase(cases)(defaultCase)(key));
+export default cases => defaultCase => key => executeIfFunction(switchCase(cases)(defaultCase)(key));
