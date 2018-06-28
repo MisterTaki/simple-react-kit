@@ -7,15 +7,17 @@ import { push } from 'react-router-redux';
 import logo from '@/assets/logo.svg';
 import './Home.less';
 
+const prefixCls = 'home';
+
 const Home = ({ className, demo }) => (
-  <div className={classNames('App', className)}>
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">
+  <div className={classNames(prefixCls, className)}>
+    <header className={`${prefixCls}-header`}>
+      <img src={logo} className={`${prefixCls}-logo`} alt="logo" />
+      <h1 className={`${prefixCls}-title`}>
         Welcome to React
       </h1>
     </header>
-    <p className="App-intro">
+    <p className={`${prefixCls}-intro`}>
       To get started, edit
       <code>
         src/App.jsx
