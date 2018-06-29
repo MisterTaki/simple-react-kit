@@ -6,7 +6,8 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const baseWebpackConfig = require('./webpack.common.js');
 
 const { prodEnv, uglifyOptions } = require('../config');
@@ -92,6 +93,7 @@ module.exports = merge(baseWebpackConfig, {
       },
       canPrint: false
     }),
+    new ManifestPlugin(),
     // https://webpack.js.org/plugins/hashed-module-ids-plugin
     new webpack.HashedModuleIdsPlugin(),
     new BundleAnalyzerPlugin()
